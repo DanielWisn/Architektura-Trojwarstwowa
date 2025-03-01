@@ -1,16 +1,1 @@
-[
-  {
-    "id": 1,
-    "firstName": "Ilia",
-    "lastName": "Naisthethik",
-    "age": 16,
-    "group": "premium"
-  },
-  {
-    "id": 0,
-    "firstName": "Bartosz",
-    "lastName": "Cudny",
-    "age": 15,
-    "group": "user"
-  }
-]
+[{"id": 1, "firstName": "Ilia", "lastName": "Naisthethik", "age": 16, "group": "premium"}, {"id": 0, "firstName": "Bartosz", "lastName": "Cudny", "age": 15, "group": "user"}]
