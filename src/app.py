@@ -1,8 +1,8 @@
 from flask import Flask,jsonify
 from flask.typing import ResponseReturnValue
 from flask import request
-from controller import UserController
-from repository import UserRepository
+from src.controller import UserController
+from src.repository import UserRepository
 from http import HTTPStatus
 
 
@@ -12,7 +12,7 @@ app = Flask(__name__)
 def get_users() -> ResponseReturnValue:
     repository = UserRepository()
     controller = UserController(repository=repository)
-    return jsonify(controller.get_user())[0], HTTPStatus.OK
+    return jsonify(controller.get_user()), HTTPStatus.OK
 
 @app.get("/users/<int:id>")
 def get_user(id: int) -> ResponseReturnValue:
@@ -22,7 +22,7 @@ def get_user(id: int) -> ResponseReturnValue:
     if user == 401:
         return jsonify(),HTTPStatus.BAD_REQUEST
     else:
-        return jsonify(user)[0], HTTPStatus.OK
+        return jsonify(user), HTTPStatus.OK
 
 @app.post("/users")
 def post_user() -> ResponseReturnValue:
