@@ -19,7 +19,7 @@ def get_user(id: int) -> ResponseReturnValue:
     repository = UserRepository()
     controller = UserController(repository=repository)
     user = controller.get_user(user_id=id)
-    if user == 401:
+    if user == HTTPStatus.BAD_REQUEST:
         return jsonify(),HTTPStatus.BAD_REQUEST
     else:
         return jsonify(user), HTTPStatus.OK
@@ -29,7 +29,7 @@ def post_user() -> ResponseReturnValue:
     repository = UserRepository()
     controller = UserController(repository=repository)
     user = request.json
-    if controller.add_user(user) == 201:
+    if controller.add_user(user) == HTTPStatus.ACCEPTED:
         return jsonify(),HTTPStatus.ACCEPTED
     else:
         return jsonify(),HTTPStatus.BAD_REQUEST
@@ -39,7 +39,7 @@ def patch_user(user_id:int) -> ResponseReturnValue:
     repository = UserRepository()
     controller = UserController(repository=repository)
     user = request.json
-    if controller.edit_user(user,user_id) == 202:
+    if controller.edit_user(user,user_id) == HTTPStatus.ACCEPTED:
         return jsonify(),HTTPStatus.ACCEPTED
     else:
         return jsonify(),HTTPStatus.BAD_REQUEST
@@ -48,7 +48,7 @@ def patch_user(user_id:int) -> ResponseReturnValue:
 def delete_user(user_id:int) -> ResponseReturnValue:
     repository = UserRepository()
     controller = UserController(repository=repository)
-    if controller.delete_user(user_id) == 203:
+    if controller.delete_user(user_id) == HTTPStatus.ACCEPTED:
         return jsonify(),HTTPStatus.ACCEPTED
     else:
         return jsonify(),HTTPStatus.BAD_REQUEST

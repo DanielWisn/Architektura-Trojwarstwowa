@@ -3,6 +3,7 @@ from src.controller import UserController
 from pytest import fixture
 from unittest.mock import Mock
 from datetime import date
+from http import HTTPStatus
 
 @fixture
 def repository() -> Mock:
@@ -25,10 +26,10 @@ def test_UserController_get_user_id_returns_from_repository(controller:UserContr
     assert expected == actual
 
 def test_UserController_add_user_returns_error_from_repository(controller:UserController) -> None:
-    assert 400 == controller.add_user({"firstName":"Test","lastName":"User","age":22,"group":"admin"})
+    assert HTTPStatus.BAD_REQUEST == controller.add_user({"firstName":"Test","lastName":"User","age":22,"group":"admin"})
 
 def test_UserController_add_user_group_returns_error_from_repository(controller:UserController) -> None:
-    assert 400 == controller.add_user({"firstName":"Test","lastName":"User","age":22,"group":"error"})
+    assert HTTPStatus.BAD_REQUEST == controller.add_user({"firstName":"Test","lastName":"User","age":22,"group":"error"})
 
 def test_UserController_calculate_age(controller:UserController) -> None:
     actual = controller.calculate_age(2000)
@@ -48,10 +49,10 @@ def test_UserController_patch_user_returns_from_repository(controller:UserContro
     assert expected == actual
 
 def test_UserController_patch_user_returns_error_from_repository(controller:UserController) -> None:
-    assert 400 == controller.edit_user({"firstName":"Test","lastName":"User","age":22,"group":"admin"},None)
+    assert HTTPStatus.BAD_REQUEST == controller.edit_user({"firstName":"Test","lastName":"User","age":22,"group":"admin"},None)
 
 def test_UserController_edit_user_group_returns_error_from_repository(controller:UserController) -> None:
-    assert 400 == controller.edit_user({"firstName":"Test","lastName":"User","age":22,"group":"error"},1)
+    assert HTTPStatus.BAD_REQUEST == controller.edit_user({"firstName":"Test","lastName":"User","age":22,"group":"error"},1)
 
 def test_UserController_delete_user_returns_from_repository(controller:UserController, repository: Mock) -> None:
     repository.delete_user.return_value = 203
@@ -60,4 +61,4 @@ def test_UserController_delete_user_returns_from_repository(controller:UserContr
     assert expected == actual
 
 def test_UserController_delete_user_returns_error_from_repository(controller:UserController) -> None:
-    assert 400 == controller.delete_user(None)
+    assert HTTPStatus.BAD_REQUEST == controller.delete_user(None)

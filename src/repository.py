@@ -1,4 +1,5 @@
 import json
+from http import HTTPStatus
 
 class UserRepository:
     @staticmethod
@@ -8,10 +9,10 @@ class UserRepository:
         if user_id != None:
             for i in range(len(users)):
                 if  users[i]["id"] == user_id:
-                    return users[i],200
+                    return users[i],HTTPStatus.ACCEPTED
             else:
-                return 401
-        return users,200
+                return HTTPStatus.BAD_REQUEST
+        return users,HTTPStatus.ACCEPTED
     @staticmethod
     def add_user(user:dict) -> None:
         with open('./src/users.json','r') as f:
@@ -25,7 +26,7 @@ class UserRepository:
         users.append(user)
         with open('./src/users.json','w') as f:
             json.dump(users,f)
-        return 201
+        return HTTPStatus.ACCEPTED
             
     @staticmethod
     def edit_user(user:dict,user_id:int):
@@ -38,7 +39,7 @@ class UserRepository:
                 id_in_users = True
                 break
         if id_in_users == False:
-            return 402
+            return HTTPStatus.BAD_REQUEST
         try:
             users[edit_user_id]["firstName"] = user["firstName"]
             users[edit_user_id]["lastName"] = user["lastName"]
@@ -46,9 +47,9 @@ class UserRepository:
             users[edit_user_id]["group"] = user["group"]
             with open('./src/users.json','w') as f:
                 json.dump(users,f)
-            return 202
+            return HTTPStatus.ACCEPTED
         except:
-            return 402
+            return HTTPStatus.BAD_REQUEST
         
     @staticmethod
     def delete_user(user_id:int):
@@ -61,9 +62,9 @@ class UserRepository:
                 id_in_users = True
                 break
         if id_in_users == False:
-            return 403
+            return HTTPStatus.BAD_REQUEST
         elif id_in_users == True:
             users.pop(delete_user_id)
             with open('./src/users.json','w') as f:
                 json.dump(users,f)
-            return 203
+            return HTTPStatus.ACCEPTED

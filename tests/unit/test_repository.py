@@ -1,6 +1,7 @@
 from src.repository import UserRepository
 from pytest import fixture
 import json
+from http import HTTPStatus
 
 @fixture(autouse=True,scope="module")
 def clear_users_json():
@@ -46,7 +47,7 @@ def test_edit_user():
     assert {"firstName":"Test","lastName":"User","age":22,"group":"admin","id":200} == answer
 
 def test_edit_user_error_id():
-    assert UserRepository.edit_user({"firstName":"Test","lastName":"User","age":22,"group":"admin"},201) == 402
+    assert UserRepository.edit_user({"firstName":"Test","lastName":"User","age":22,"group":"admin"},201) == HTTPStatus.BAD_REQUEST
 
 def test_delete_user():
     with open('./src/users.json','r') as f:
@@ -61,4 +62,4 @@ def test_delete_user():
     assert None == answer
 
 def test_delete_user_error():
-    assert UserRepository.delete_user(305) == 403
+    assert UserRepository.delete_user(305) == HTTPStatus.BAD_REQUEST
