@@ -45,12 +45,20 @@ def test_post_user_endpoint_error_birthYear(client: FlaskClient) -> None:
     result = client.post("users",json={"firstName":"Test","lastName":"User","group":"admin","birthYear":2100})
     assert result.status_code == HTTPStatus.BAD_REQUEST
 
+def test_post_user_endpoint_group_error_value(client: FlaskClient) -> None:
+    result = client.post("users",json={"firstName":"Test","lastName":"User","group":"error","age":23})
+    assert result.status_code == HTTPStatus.BAD_REQUEST
+
 def test_patch_user_endpoint(client: FlaskClient) -> None:
     result = client.patch("users/2",json={"firstName":"Test","lastName":"User","group":"admin","age":10})
     assert result.status_code == HTTPStatus.ACCEPTED
 
 def test_patch_user_endpoint_none_value(client: FlaskClient) -> None:
     result = client.patch("users/2",json={"firstName":"Test","lastName":"User","group":"admin"})
+    assert result.status_code == HTTPStatus.BAD_REQUEST
+
+def test_patch_user_endpoint_group_error_value(client: FlaskClient) -> None:
+    result = client.patch("users/2",json={"firstName":"Test","lastName":"User","group":"error","age":23})
     assert result.status_code == HTTPStatus.BAD_REQUEST
 
 def test_patch_user_endpoint_error_id(client: FlaskClient) -> None:

@@ -2,6 +2,7 @@ from src.repository import UserRepository
 from datetime import date
 
 current_year = date.today().year
+possible_groups = ["premium","user","admin"]
 
 class UserController:
     def __init__(self, repository : UserRepository) -> None:
@@ -24,6 +25,8 @@ class UserController:
             return 400
         if user["birthYear"] > current_year:
             return 400
+        if user["group"] not in possible_groups:
+            return 400
         user["age"] = self.calculate_age(user["birthYear"])
         del user["birthYear"]
         return self._repository.add_user(user)
@@ -33,6 +36,8 @@ class UserController:
             if user["lastName"] == None or user["firstName"] == None or user["age"] == None or user["group"] == None or user_id == None:
                 return 400
         except:
+            return 400
+        if user["group"] not in possible_groups:
             return 400
         return self._repository.edit_user(user,user_id)
 
